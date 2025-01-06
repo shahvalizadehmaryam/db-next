@@ -19,7 +19,17 @@ export default async function handler(req, res) {
       return;
     }
     try {
-      const user = await User.create({ name });
+      const user = await User.create({
+        name: "milad",
+        age: 20,
+        phone: "09147367958",
+        email: "milad@gmail.com",
+        address: {
+          city: "Tabriz",
+          street: "vila",
+        },
+        courses: ["node", "javascript"],
+      });
       console.log(user);
       res.status(201).json({
         status: "success",
