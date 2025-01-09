@@ -5,10 +5,13 @@ export default function Home() {
   const [users, setUsers] = useState([]);
   const [editId, setEditId] = useState("");
   const [email, setEmail] = useState("");
-  useEffect(() => {
+  const fetchData = () => {
     fetch("/api/data")
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
   const handleUserDetail = async (id) => {
     const res = await fetch(`/api/data/${id}`);
@@ -27,6 +30,15 @@ export default function Home() {
   const editHandler = (user) => {
     setEditId(user._id);
     setEmail(user.email);
+  };
+  const deleteHandler = async (id) => {
+    const res = await fetch(`/api/data/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    fetchData();
+    console.log(data);
   };
   const saveHandler = async (id) => {
     const res = await fetch(`/api/data/${id}`, {
@@ -64,6 +76,7 @@ export default function Home() {
               ) : null}
 
               <button onClick={() => editHandler(user)}>Edit</button>
+              <button onClick={() => deleteHandler(user._id)}>Delete</button>
             </div>
           ))}
         </ul>
