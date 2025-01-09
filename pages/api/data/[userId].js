@@ -25,5 +25,20 @@ export default async function handler(req, res) {
         .status(500)
         .json({ status: "Failed", message: "cannot retrieve a specific user" });
     }
-  }
+  } /* else if (req.method === "PATCH") {
+    try {
+      const userId = req.query.userId;
+      const email = req.body;
+      //   const user = await User.findById(userId);
+      const user = await User.findOne({ _id: userId });
+      user.email = email;
+      user.save();
+      res.status(200).json({ status: "Success", data: user });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ status: "Failed", message: "cannot retrieve a specific user" });
+    }
+  } */
 }
