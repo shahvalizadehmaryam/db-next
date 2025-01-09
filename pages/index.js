@@ -8,7 +8,11 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);
-
+  const handleUserDetail = async (id) => {
+    const res = await fetch(`/api/data/${id}`);
+    const data = await res.json();
+    console.log("data", data);
+  };
   const postHandler = async () => {
     const res = await fetch("/api/data", {
       method: "POST",
@@ -28,7 +32,12 @@ export default function Home() {
       <div>
         <ul>
           {users.map((user) => (
-            <li key={user._id}>{user.name}</li>
+            <div key={user._id}>
+              <li>{user.name}</li>
+              <button onClick={() => handleUserDetail(user._id)}>
+                user detail
+              </button>
+            </div>
           ))}
         </ul>
       </div>
